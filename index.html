@@ -642,8 +642,15 @@ footer {
     var cards = Array.prototype.slice.call(document.querySelectorAll('.work-card[data-deck]'));
     if (!cards.length) return;
 
+    function getViewer(card) {
+      // The viewer is moved to document.body on init, so it is no
+      // longer inside the card — the reference is kept on the card.
+      return card._deckViewer || card.querySelector('.deck-viewer');
+    }
+
     function loadDeck(card) {
-      var frame = card.querySelector('.deck-viewer iframe');
+      var viewer = getViewer(card);
+      var frame = viewer && viewer.querySelector('iframe');
       if (frame && !frame.getAttribute('src')) {
         frame.setAttribute('src', frame.getAttribute('data-src'));
       }
@@ -659,7 +666,7 @@ footer {
     function openDeck(card) {
       closeAll(card);
       loadDeck(card);
-      var viewer = card.querySelector('.deck-viewer');
+      var viewer = getViewer(card);
       if (!viewer) return;
       viewer.classList.add('open');
       document.body.classList.add('deck-open');
@@ -668,7 +675,7 @@ footer {
     }
 
     function closeDeck(card) {
-      var viewer = card.querySelector('.deck-viewer');
+      var viewer = getViewer(card);
       if (!viewer) return;
       viewer.classList.remove('open');
       document.body.classList.remove('deck-open');
@@ -685,7 +692,10 @@ footer {
     cards.forEach(function (card) {
       // Float the overlay above everything, out of the card's layout.
       var viewer = card.querySelector('.deck-viewer');
-      if (viewer) document.body.appendChild(viewer);
+      if (viewer) {
+        card._deckViewer = viewer;
+        document.body.appendChild(viewer);
+      }
 
       var btn = card.querySelector('.deck-toggle');
       if (btn) {
