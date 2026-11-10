@@ -249,16 +249,10 @@ h3 {
   transform: scale(1.035);
 }
 
-/* Scroll-triggered deck viewer: a portfolio card pops open into a
-   full-deck overview when scrolled into view, and shrinks back to
-   its small card when scrolled past. */
+/* Floating deck overlay: opening a presentation dims the page and
+   floats the deck over it. Opening is manual only — the button. */
 .work-card {
   overflow: hidden;
-}
-
-.work-card.expanded {
-  grid-column: 1 / -1;
-  box-shadow: 0 18px 44px rgba(0, 0, 0, 0.12);
 }
 
 .deck-toggle {
@@ -281,18 +275,34 @@ h3 {
 }
 
 .deck-viewer {
-  height: 0;
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  padding: 20px;
+  background: rgba(0, 0, 0, 0.85);
   opacity: 0;
-  overflow: hidden;
-  border-radius: 14px;
-  margin-top: 0;
-  transition: height 0.55s ease, opacity 0.45s ease, margin-top 0.55s ease;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
 }
 
-.work-card.expanded .deck-viewer {
-  height: min(68vh, 620px);
+.deck-viewer.open {
   opacity: 1;
-  margin-top: 18px;
+  visibility: visible;
+}
+
+.deck-frame {
+  position: relative;
+  width: min(94vw, calc(82vh * 16 / 9), 1000px);
+  aspect-ratio: 16 / 9;
+  background: #000;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 24px 70px rgba(0, 0, 0, 0.6);
 }
 
 .deck-viewer iframe {
@@ -300,13 +310,35 @@ h3 {
   height: 100%;
   border: 0;
   display: block;
-  background: var(--paper);
+  background: #000;
+}
+
+.deck-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 3;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  background: rgba(0, 0, 0, 0.65);
+  color: #fff;
+  font: inherit;
+  font-size: 1.4rem;
+  line-height: 1;
+  cursor: pointer;
 }
 
 .deck-hint {
   font-size: 0.85rem;
-  color: var(--muted);
-  margin: 10px 2px 0;
+  color: rgba(255, 255, 255, 0.75);
+  margin: 0;
+  text-align: center;
+}
+
+body.deck-open {
+  overflow: hidden;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -506,7 +538,10 @@ footer {
             <p>A warm, recognizable brand identity and social media campaign created for a local coffee concept.</p>
             <button class="deck-toggle" type="button" aria-expanded="false">View presentation</button>
             <div class="deck-viewer">
-              <iframe title="Roast &amp; Rise Coffee presentation" loading="lazy" allowfullscreen="true" data-src="https://docs.google.com/presentation/d/1VpZjA_mGZ-c5tDdSyEIaCaGsUAofMvTAr393ImEaxWA/embed?start=false&amp;loop=false&amp;delayms=3000"></iframe>
+              <div class="deck-frame">
+                <iframe title="Roast &amp; Rise Coffee presentation" loading="lazy" allowfullscreen="true" data-src="https://docs.google.com/presentation/d/1VpZjA_mGZ-c5tDdSyEIaCaGsUAofMvTAr393ImEaxWA/embed?start=false&amp;loop=false&amp;delayms=3000"></iframe>
+                <button class="deck-close" type="button" aria-label="Close presentation">&times;</button>
+              </div>
               <p class="deck-hint">Flip through the deck with the arrows — tap fullscreen for a closer look.</p>
             </div>
           </article>
@@ -517,7 +552,10 @@ footer {
             <p>A trust-focused local marketing concept designed to highlight reliable service and attract nearby drivers.</p>
             <button class="deck-toggle" type="button" aria-expanded="false">View presentation</button>
             <div class="deck-viewer">
-              <iframe title="Precision Auto Care presentation" loading="lazy" allowfullscreen="true" data-src="https://docs.google.com/presentation/d/1NjCU-xiUBnKyKoX3FOIICqwpOqQvRWIvX4g4I8HUNPQ/embed?start=false&amp;loop=false&amp;delayms=3000"></iframe>
+              <div class="deck-frame">
+                <iframe title="Precision Auto Care presentation" loading="lazy" allowfullscreen="true" data-src="https://docs.google.com/presentation/d/1NjCU-xiUBnKyKoX3FOIICqwpOqQvRWIvX4g4I8HUNPQ/embed?start=false&amp;loop=false&amp;delayms=3000"></iframe>
+                <button class="deck-close" type="button" aria-label="Close presentation">&times;</button>
+              </div>
               <p class="deck-hint">Flip through the deck with the arrows — tap fullscreen for a closer look.</p>
             </div>
           </article>
@@ -528,7 +566,10 @@ footer {
             <p>A polished identity and visual system built around craftsmanship, steady growth, and customer trust.</p>
             <button class="deck-toggle" type="button" aria-expanded="false">View presentation</button>
             <div class="deck-viewer">
-              <iframe title="Oak &amp; Stone Landscaping presentation" loading="lazy" allowfullscreen="true" data-src="https://docs.google.com/presentation/d/1o73F3k1m_I3yj_v0l-_mJwFQX_mSVBRt_lEQK4ZPb-8/embed?start=false&amp;loop=false&amp;delayms=3000"></iframe>
+              <div class="deck-frame">
+                <iframe title="Oak &amp; Stone Landscaping presentation" loading="lazy" allowfullscreen="true" data-src="https://docs.google.com/presentation/d/1o73F3k1m_I3yj_v0l-_mJwFQX_mSVBRt_lEQK4ZPb-8/embed?start=false&amp;loop=false&amp;delayms=3000"></iframe>
+                <button class="deck-close" type="button" aria-label="Close presentation">&times;</button>
+              </div>
               <p class="deck-hint">Flip through the deck with the arrows — tap fullscreen for a closer look.</p>
             </div>
           </article>
@@ -539,7 +580,10 @@ footer {
             <p>A curated showcase of brand identities, marketing campaigns, social graphics, and presentation design.</p>
             <button class="deck-toggle" type="button" aria-expanded="false">View presentation</button>
             <div class="deck-viewer">
-              <iframe title="Creative Designer presentation" loading="lazy" allowfullscreen="true" data-src="https://docs.google.com/presentation/d/1aYYzDmVjDqWlp8L4-oB86fNaFvWfHk0oNXVMcMqSK5A/embed?start=false&amp;loop=false&amp;delayms=3000"></iframe>
+              <div class="deck-frame">
+                <iframe title="Creative Designer presentation" loading="lazy" allowfullscreen="true" data-src="https://docs.google.com/presentation/d/1aYYzDmVjDqWlp8L4-oB86fNaFvWfHk0oNXVMcMqSK5A/embed?start=false&amp;loop=false&amp;delayms=3000"></iframe>
+                <button class="deck-close" type="button" aria-label="Close presentation">&times;</button>
+              </div>
               <p class="deck-hint">Flip through the deck with the arrows — tap fullscreen for a closer look.</p>
             </div>
           </article>
@@ -591,14 +635,12 @@ footer {
   </footer>
 
   <script>
-  // Portfolio deck viewer: a card pops open into its full presentation
-  // when scrolled into view, and shrinks back to its small card when
-  // scrolled past. The deck itself loads lazily, only on first open.
+  // Portfolio deck overlay: tapping "View presentation" dims the page
+  // and floats the deck over it. Opening is manual only — nothing
+  // pops up on scroll. The deck loads lazily, only on first open.
   (function () {
     var cards = Array.prototype.slice.call(document.querySelectorAll('.work-card[data-deck]'));
-    if (!cards.length || !('IntersectionObserver' in window)) return;
-
-    var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (!cards.length) return;
 
     function loadDeck(card) {
       var frame = card.querySelector('.deck-viewer iframe');
@@ -607,64 +649,68 @@ footer {
       }
     }
 
-    function setToggle(card, expanded) {
+    function setToggle(card, open) {
       var btn = card.querySelector('.deck-toggle');
       if (!btn) return;
-      btn.setAttribute('aria-expanded', expanded ? 'true' : 'false');
-      btn.textContent = expanded ? 'Close presentation' : 'View presentation';
+      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      btn.textContent = open ? 'Close presentation' : 'View presentation';
     }
 
-    function expand(card, lock) {
-      cards.forEach(function (other) {
-        if (other !== card && other.dataset.locked !== 'true') collapse(other);
-      });
-      card.classList.add('expanded');
-      if (lock) card.dataset.locked = 'true';
+    function openDeck(card) {
+      closeAll(card);
       loadDeck(card);
+      var viewer = card.querySelector('.deck-viewer');
+      if (!viewer) return;
+      viewer.classList.add('open');
+      document.body.classList.add('deck-open');
+      card.dataset.open = 'true';
       setToggle(card, true);
     }
 
-    function collapse(card) {
-      card.classList.remove('expanded');
-      card.dataset.locked = 'false';
+    function closeDeck(card) {
+      var viewer = card.querySelector('.deck-viewer');
+      if (!viewer) return;
+      viewer.classList.remove('open');
+      document.body.classList.remove('deck-open');
+      card.dataset.open = 'false';
       setToggle(card, false);
     }
 
-    // Manual open/close: tapping the button pins the deck open until
-    // tapped again (or until the card scrolls fully out of view).
-    cards.forEach(function (card) {
-      var btn = card.querySelector('.deck-toggle');
-      if (!btn) return;
-      btn.addEventListener('click', function () {
-        if (card.classList.contains('expanded')) {
-          collapse(card);
-        } else {
-          expand(card, true);
-        }
+    function closeAll(except) {
+      cards.forEach(function (other) {
+        if (other !== except) closeDeck(other);
       });
+    }
+
+    cards.forEach(function (card) {
+      // Float the overlay above everything, out of the card's layout.
+      var viewer = card.querySelector('.deck-viewer');
+      if (viewer) document.body.appendChild(viewer);
+
+      var btn = card.querySelector('.deck-toggle');
+      if (btn) {
+        btn.addEventListener('click', function () {
+          if (card.dataset.open === 'true') closeDeck(card);
+          else openDeck(card);
+        });
+      }
+
+      if (viewer) {
+        // Tap the dark backdrop to close.
+        viewer.addEventListener('click', function (e) {
+          if (e.target === viewer) closeDeck(card);
+        });
+        var closeBtn = viewer.querySelector('.deck-close');
+        if (closeBtn) {
+          closeBtn.addEventListener('click', function () { closeDeck(card); });
+        }
+      }
     });
 
-    // Auto open/close on scroll. With reduced-motion preference, skip
-    // the automatic pop-up and leave it to the button.
-    if (reduceMotion) return;
-
-    var observer = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        var card = entry.target;
-        if (!entry.isIntersecting) {
-          collapse(card);
-          return;
-        }
-        if (card.dataset.locked === 'true') return;
-        if (entry.intersectionRatio >= 0.55) {
-          expand(card, false);
-        } else if (entry.intersectionRatio < 0.25) {
-          collapse(card);
-        }
-      });
-    }, { threshold: [0, 0.25, 0.55, 0.8] });
-
-    cards.forEach(function (card) { observer.observe(card); });
+    // Escape closes any open deck.
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') closeAll(null);
+    });
   })();
   </script>
 </body>
