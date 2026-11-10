@@ -19,7 +19,7 @@
     footer{border-top:1px solid var(--line);padding:28px 0;color:var(--muted)}
     @media(max-width:760px){.featured{grid-template-columns:1fr}.grid{grid-template-columns:1fr}.section-head{display:block}.hero{padding-top:72px}.navlinks a:first-child{display:none}}
 
-    .project-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px}.project-card{display:block;overflow:hidden;border-radius:24px;background:var(--panel);border:1px solid var(--line);color:var(--ink);text-decoration:none;transition:transform .2s,border-color .2s}.project-card:hover,.project-card:focus-visible{transform:translateY(-4px);border-color:var(--lime)}.project-art{height:310px;position:relative;overflow:hidden}.project-body{padding:25px}.project-body h3{font-size:1.7rem;margin:5px 0}.project-body p{color:var(--muted);margin:0 0 16px}.project-kicker{font-size:.75rem;letter-spacing:.13em;font-weight:900;color:var(--lime)}.project-link{font-weight:900;color:var(--lime)}.project-art img{width:100%;height:100%;object-fit:cover;display:block}.book-details{margin-top:28px;padding:25px;border:1px solid var(--line);border-radius:20px;scroll-margin-top:95px}.book-details h3{font-size:1.5rem;margin:5px 0}.book-details p:last-child{color:var(--muted)}@media(max-width:760px){.project-grid{grid-template-columns:1fr}.project-art{height:270px}}
+    .project-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px}.project-card{display:block;overflow:hidden;border-radius:24px;background:var(--panel);border:1px solid var(--line);color:var(--ink);text-decoration:none;transition:transform .2s,border-color .2s}.project-card:hover,.project-card:focus-visible{transform:translateY(-4px);border-color:var(--lime)}.project-art{height:310px;position:relative;overflow:hidden}.project-body{padding:25px}.project-body h3{font-size:1.7rem;margin:5px 0}.project-body p{color:var(--muted);margin:0 0 16px}.project-kicker{font-size:.75rem;letter-spacing:.13em;font-weight:900;color:var(--lime)}.project-link{font-weight:900;color:var(--lime)}.project-art img{width:100%;height:100%;object-fit:cover;display:block}.book-details{position:fixed;inset:0;z-index:60;display:flex;align-items:center;justify-content:center;padding:20px;background:rgba(0,0,0,.85);opacity:0;visibility:hidden;transition:opacity .3s ease,visibility .3s ease}.book-details.open{opacity:1;visibility:visible}.book-panel{position:relative;width:min(94vw,640px);max-height:85vh;overflow:auto;background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:28px;text-align:left}.book-details h3{font-size:1.5rem;margin:5px 0}.book-details p:last-child{color:var(--muted)}.book-close{position:absolute;top:12px;right:12px;width:38px;height:38px;border-radius:50%;border:1px solid rgba(255,255,255,.45);background:rgba(0,0,0,.65);color:#fff;font:inherit;font-size:1.3rem;line-height:1;cursor:pointer}body.book-open{overflow:hidden}@media (prefers-reduced-motion:reduce){.book-details{transition:none}}@media(max-width:760px){.project-grid{grid-template-columns:1fr}.project-art{height:270px}}
   </style>
 </head>
 <body>
@@ -33,14 +33,40 @@
           <div class="project-art"><img src="images/street2home-preview.jpg" alt="Street2Home app preview — home screen, resources list, and place details on four phones"></div>
           <div class="project-body"><span class="project-kicker">01 · COMMUNITY APP</span><h3>Street2Home</h3><p>A welcoming, phone-first guide to food, shelter, showers, charging, ID support, and other essential resources.</p><span class="project-link">Explore the project →</span></div>
         </a>
-        <a class="project-card" href="#blacktop-details" aria-label="Explore Blacktop Arcana">
+        <a class="project-card" href="#blacktop-details" data-book-open aria-label="Explore Blacktop Arcana">
           <div class="project-art"><img src="images/blacktop-arcana-book.jpg" alt="Blacktop Arcana book — front cover, spine, and back cover"></div>
           <div class="project-body"><span class="project-kicker">02 · SUPERNATURAL THRILLER</span><h3>Blacktop Arcana</h3><p>A supernatural road-thriller centered on Kane, a 1969 Charger, and a highway hiding something far darker.</p><span class="project-link">Explore the book →</span></div>
         </a>
       </div>
-      <div id="blacktop-details" class="book-details"><p class="tag">Blacktop Arcana · Book One</p><h3>The Devil's Mile</h3><p><span class="status"><span class="dot"></span>Coming soon to ebook formats</span></p><p>The road was supposed to be an escape. For Kane Vane, it became something far greater — a path into a hidden world where motion moves more than machines, where symbols hold power, and where the lines between reality, memory, and something older begin to blur.</p><p>As the marks awaken and the Passenger stirs, Kane is forced to confront the truth about his past, the people he's lost, and the power that's been running beside him all along.</p><p>Book information and verified purchase links will be added here as they become available.</p></div>
+      <div id="blacktop-details" class="book-details" role="dialog" aria-modal="true" aria-label="Blacktop Arcana — The Devil's Mile"><div class="book-panel"><button class="book-close" type="button" aria-label="Close">&times;</button><p class="tag">Blacktop Arcana · Book One</p><h3>The Devil's Mile</h3><p><span class="status"><span class="dot"></span>Coming soon to ebook formats</span></p><p>The road was supposed to be an escape. For Kane Vane, it became something far greater — a path into a hidden world where motion moves more than machines, where symbols hold power, and where the lines between reality, memory, and something older begin to blur.</p><p>As the marks awaken and the Passenger stirs, Kane is forced to confront the truth about his past, the people he's lost, and the power that's been running beside him all along.</p><p>Book information and verified purchase links will be added here as they become available.</p></div></div>
     </div></section>
   </main>
   <footer><div class="wrap">© 2026 Quinones Creative Labs</div></footer>
+<script>
+(function () {
+  var details = document.getElementById('blacktop-details');
+  if (!details) return;
+  document.body.appendChild(details);
+  var trigger = document.querySelector('[data-book-open]');
+  function openBook(e) {
+    if (e) e.preventDefault();
+    details.classList.add('open');
+    document.body.classList.add('book-open');
+  }
+  function closeBook() {
+    details.classList.remove('open');
+    document.body.classList.remove('book-open');
+  }
+  if (trigger) trigger.addEventListener('click', openBook);
+  details.addEventListener('click', function (e) {
+    if (e.target === details) closeBook();
+  });
+  var closeBtn = details.querySelector('.book-close');
+  if (closeBtn) closeBtn.addEventListener('click', closeBook);
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') closeBook();
+  });
+})();
+</script>
 </body>
 </html>
